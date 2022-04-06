@@ -1,20 +1,23 @@
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.Color;
-
+// Nojus Murauskas ZP20/2v
 public class Selenium {
-    public static final String SEARCH_BUTTON_BY_XPATH = "//*[@id=\"search_icon\"]";
     private static WebDriver browser;
 
     public static void main(String[] args) {
         // write your code here
-        System.out.println("selenium+JUnit");
+        System.out.println("selenium+TestNG");
 
         setup();
 
-        input("Witcher");
+        createDataInput("Witcher");
 
-        getCompareResults();
+        editDataInput("huh");
+
+        deleteDataByIDInput("1234");
+
+        getInputResults();
 
         close();
     }
@@ -26,29 +29,51 @@ public class Selenium {
         browser.get("http://kitm.epizy.com/filmai.php?i=1");
     }
 
-    public static void input(String keyword) {
+    public static void createDataInput(String keyword) {
+
         for (int i = 2; i <=5;i++) {
             WebElement inputField = browser.findElement(By.xpath("/html/body/div[1]/form/input["+i+"]"));
             inputField.sendKeys(keyword);
         }
-        // WebElement inputField1 = browser.findElement(By.xpath("/html/body/div[1]/form/input[2]"));
-        // inputField1.sendKeys(keyword);
-        // WebElement inputField2 = browser.findElement(By.xpath("/html/body/div[1]/form/input[3]"));
-        // inputField2.sendKeys(keyword);
-        // WebElement inputField3 = browser.findElement(By.xpath("/html/body/div[1]/form/input[4]"));
-        // inputField3.sendKeys(keyword);
-        // WebElement inputField4 = browser.findElement(By.xpath("/html/body/div[1]/form/input[5]"));
-        // inputField4.sendKeys(keyword);
+
         WebElement inputField5 = browser.findElement(By.xpath("/html/body/div[1]/form/input[6]"));
         inputField5.sendKeys("1234");
 
-        // Pirmas variantas kai puslapis sukurtas su JS
         WebElement ele = browser.findElement(By.xpath("/html/body/div[1]/form/p[1]/button[1]"));
         JavascriptExecutor executor = (JavascriptExecutor) browser;
         executor.executeScript("arguments[0].click();", ele);
     }
 
-    public static String getCompareResults() {
+    public static void editDataInput(String keyword) {
+
+        WebElement inputFieldID = browser.findElement(By.xpath("/html/body/div/form/input[1]"));
+        inputFieldID.sendKeys("1226");
+
+        for (int i = 2; i <=5;i++) {
+            WebElement inputField = browser.findElement(By.xpath("/html/body/div[1]/form/input["+i+"]"));
+            inputField.sendKeys(keyword);
+        }
+
+        WebElement inputField5 = browser.findElement(By.xpath("/html/body/div[1]/form/input[6]"));
+        inputField5.sendKeys("12345");
+
+        WebElement ele = browser.findElement(By.xpath("/html/body/div/form/p[1]/button[2]"));
+        JavascriptExecutor executor = (JavascriptExecutor) browser;
+        executor.executeScript("arguments[0].click();", ele);
+    }
+
+    public static void deleteDataByIDInput(String keyword){
+
+        WebElement inputFieldID = browser.findElement(By.xpath("/html/body/div/form/input[1]"));
+        inputFieldID.sendKeys(keyword);
+
+        WebElement ele = browser.findElement(By.xpath("/html/body/div/form/p[1]/button[4]"));
+        JavascriptExecutor executor = (JavascriptExecutor) browser;
+        executor.executeScript("arguments[0].click();", ele);
+    }
+
+    public static String getInputResults() {
+
         WebElement result2 = browser.findElement(By.xpath("/html/body/div[2]"));
 
         String resultRGB = result2.getCssValue("Color");
